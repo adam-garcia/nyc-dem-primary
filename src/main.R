@@ -70,7 +70,3 @@ tibble::lst(
       here::here()
     readr::write_csv(.x, csv_out)
   })
-
-boro_out <- here::here("out/boro_round_01.csv")
-ad_out <- here::here("out/boro_round_01.csv")
-_out <- here::here("out/boro_round_01.csv")
