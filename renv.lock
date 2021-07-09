@@ -9,6 +9,13 @@
     ]
   },
   "Packages": {
+    "magrittr": {
+      "Package": "magrittr",
+      "Version": "2.0.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "41287f1ac7d28a92f0a286ed507928d3"
+    },
     "renv": {
       "Package": "renv",
       "Version": "0.13.2",
