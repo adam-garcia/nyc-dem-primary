@@ -60,3 +60,17 @@ boro_data <- ad_data %>%
   )
 ##  ............................................................................
 #   Output                                                                  ####
+tibble::lst(
+  boro = boro_data,
+  ad = ad_data,
+  ed = ed_data
+) %>%
+  purrr::iwalk(~ {
+    csv_out <- glue::glue("out/{.y}_round_01.csv") %>%
+      here::here()
+    readr::write_csv(.x, csv_out)
+  })
+
+boro_out <- here::here("out/boro_round_01.csv")
+ad_out <- here::here("out/boro_round_01.csv")
+_out <- here::here("out/boro_round_01.csv")
