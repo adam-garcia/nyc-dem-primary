@@ -41,7 +41,16 @@ ed_data <- ad_urls %>%
         stringr::str_extract("\\d+") %>%
         readr::parse_number()
       )
+  ) %>%
+  dplyr::group_by(boro, ad, ed) %>%
+  dplyr::mutate(
+    votes_pct = votes / sum(votes, na.rm = TRUE)
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    date_retrieved = lubridate::now()
   )
+
 # Summarize up level-by-level for boro- and district-level data
 # Assembly district
 ad_data <- ed_data %>%
@@ -49,15 +58,27 @@ ad_data <- ed_data %>%
   dplyr::filter(boro != "Total", ad != "Total") %>%
   dplyr::summarize(
     votes = sum(votes, na.rm = TRUE),
+    date_retrieved = head(date_retrieved, 1),
     .groups = "drop"
-  )
+  ) %>%
+  dplyr::group_by(boro, ad) %>%
+  dplyr::mutate(
+    votes_pct = votes / sum(votes, na.rm = TRUE)
+  ) %>%
+  dplyr::ungroup()
 # Borough
 boro_data <- ad_data %>%
   dplyr::group_by(boro, candidate) %>%
   dplyr::summarize(
     votes = sum(votes, na.rm = TRUE),
+    date_retrieved = head(date_retrieved, 1),
     .groups = "drop"
-  )
+  ) %>%
+  dplyr::group_by(boro) %>%
+  dplyr::mutate(
+    votes_pct = votes / sum(votes, na.rm = TRUE)
+  ) %>%
+  dplyr::ungroup()
 ##  ............................................................................
 #   Output                                                                  ####
 tibble::lst(
